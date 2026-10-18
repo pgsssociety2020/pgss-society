@@ -1,46 +1,805 @@
+<title>PGSS Society</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Serif:wght@600;700&family=Noto+Serif+Devanagari:wght@600;700&display=swap">
+<style>
+/* Layout: contact strip > big name banner with logo slot > sticky menu (About, Services drop-downs) > one page at a time > footer. Home = picture hero with motto (left) and running updates box (right), then a pamphlet slot. Palette from the society's AGM notice. */
+:root{
+  --green:#1c7293; --green-deep:#155a77; --gold:#f5b83d; --red:#c0392b;
+  --bg:#fbf8ee; --surface:#ffffff; --tint:#fff1d2; --ink:#1f2a30; --muted:#5a6670; --line:#d9d4bf;
+  --hdr-bg:#1c7293; --hdr-fg:#ffffff; --hdr-sub:#d9edf5; --link:#155a77; --notice-red:#c0392b; --head:#1c7293;
+  --f-body:"Noto Sans","Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --f-head:"Noto Serif","Noto Serif Devanagari",Georgia,"Times New Roman",serif;
+  --fs:16px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1a22; --surface:#15252f; --tint:#2a2411; --ink:#e8f0f4; --muted:#a3b6c1; --line:#2c4452;
+  --hdr-bg:#155a77; --link:#8ccde8; --notice-red:#f19a9a; --red:#f19a9a; --head:#8ccde8; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1a22; --surface:#15252f; --tint:#2a2411; --ink:#e8f0f4; --muted:#a3b6c1; --line:#2c4452;
+  --hdr-bg:#155a77; --link:#8ccde8; --notice-red:#f19a9a; --red:#f19a9a; --head:#8ccde8; color-scheme:dark}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PGSS Society</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f1f5f9;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        .container {
-            background: white;
-            padding: 40px 25px;
-            margin: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            max-width: 500px;
-        }
-        h1 { color: #1d4ed8; }
-        p { color: #475569; line-height: 1.7; }
-        .status {
-            display: inline-block;
-            background: #fef3c7;
-            color: #92400e;
-            padding: 8px 14px;
-            border-radius: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>PGSS Society</h1>
-        <div class="status">Website Under Construction</div>
-        <p>We are building our new website.</p>
-        <p>Please visit us again soon!</p>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--fs);line-height:1.6}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1240px;margin-inline:auto;padding-inline:16px}
+.skip{position:absolute;left:-999px;top:0;background:var(--gold);color:#1f2a30;padding:8px 14px;font-weight:600;z-index:50}
+.skip:focus{left:8px}
+svg.ic{width:1.05em;height:1.05em;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.15em}
+
+/* contact strip */
+.util{background:#0e3b52;color:#e6f2f8;font-size:.875rem}
+.util .wrap{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;align-items:center;padding-block:6px}
+.util .contact{display:flex;flex-wrap:wrap;gap:4px 22px;align-items:center}
+.util .contact span,.util .contact a{display:inline-flex;align-items:center;gap:7px}
+.util a{color:#fff;text-decoration:none}
+.util a:hover{text-decoration:underline}
+.util .tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.util button{font:inherit;font-size:.8125rem;background:transparent;color:inherit;border:1px solid #6b9bb3;padding:1px 9px;cursor:pointer;min-width:30px}
+.util button:hover{background:#1e5c7a}
+.util .sep{opacity:.5}
+.slot{background:rgba(245,184,61,.18);border:1px dashed var(--gold);padding:0 8px;color:#f6dd9a;font-size:.8125rem}
+
+/* name banner */
+.hdr{background:var(--hdr-bg);color:var(--hdr-fg);border-bottom:6px solid var(--gold);position:relative;overflow:hidden;isolation:isolate}
+.hdr::before{content:"";position:absolute;inset:0;z-index:-1;background:url("data:image/jpeg;base64,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Vw0JHx5hNNxxhPf/AAZhvhpjjksmgkrmATTHMGccBCDMACAAKPLAHPHPPLMKECJGFDCAANPBOIAEB7w1+3xwFEJKPMTSYbdPQXTwbecQTfShr+rrjmnhvvvssspngkujhsvSfcakSRJfQcccQVcEeeddINPPPHPPPLDAOGAAj5/4x636AWdRLVDbaWVYQQV949f5ffQQ5pipvvuy6+dfCDDNPJqJAg/ripurvuTjbW8GbhzwTTHlr4hAEFPPOHNNN/363+x4z/KCAfdZ478xS5efTbQ0qixy4v8A4IdaL7rItW2CzAQwLswJK8NPe/8A6+G+2iSeR1RhZh9Lzi2+COe6W2OSyzbT3PR7fAAY8scdX/8Ay/32x1z/AFPP+r6YefP/AKjCCSmS2tYUmOy6E+WXfCDD3vLLDTDyDCerDG7j/Dz+6x83HP8A/wDNd99M89IfBQBjAQhhuONsNtbLZe77o88JLa7977rIJIIJb5qWUQbq7zurb6pfuM+88jtn/wDvv/vDH7jX/d9F5PjrfixJz+yjD8QQM00o08c99DjirraieO+uuiEU8ok+sNMw8yCCG0UxFU8yvjfjvH/bzPDess40rwcChT3txhlfhVV9tlxBRhDFN7j5EUs95xNgA084B/7nbuKuks15uuYBRcx9MJl4MACQ8w5ZVS6KTbPbjDX7Tf8A3PNAghjm/wD8+/38bz3kjDoEU1k0kEE13GGFE3F55S6b89PO8Ps7JAkVHlDmVWU0dkCS0UAEnUgAAX+J1MYYdtfsMNfe+6SgboII7rb/APDf/wDXQw//AJzz76EH13330F0F92H52CF38F0CIKJz6J532MGCF6IKHz932EH8OMOHwF34KKJ/+OMP8OON9+ADwD4IL6L6D//EACERAQEBAQACAwEAAwEAAAAAABEAARAgMEBQYFEhMUFw/9oACAEDAQE/ECIiIiIiIiIiIiIiIiIiIiIiI4REREcI4cIiIiIiI4IiPeAAEeQCIiIiIiPECIiI8CIiOHoI4REREREREREREREREREREREREREREREREREREREREREREREREeIEREREREREREREREREREROcMNiIiIiIiI6fFOERERHGYmc+GREREREREREREX+Jy3+LdbOzvC/12s1weQhGMIR4FmYTk5kLc/84zNmJz4Zw6+AUrJi+U2x2YiIiIiI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") center 60%/cover no-repeat;mix-blend-mode:multiply;opacity:1;pointer-events:none}
+.hdr .wrap{position:relative;display:flex;gap:26px;align-items:center;padding-block:26px}
+.logo{flex:none;width:84px;height:84px;display:grid;place-items:center}
+.logo img{width:100%;height:100%;object-fit:contain;display:block}
+.logo .ph{width:100%;height:100%;border:2px dashed var(--gold);display:grid;place-items:center;text-align:center;font-size:.75rem;font-weight:700;letter-spacing:.1em;color:var(--gold);line-height:1.3}
+.hdr .names{flex:1;min-width:0;text-align:center}
+.hdr h1{text-shadow:0 1px 4px rgba(0,0,0,.35);margin:0;font-family:var(--f-head);font-size:clamp(1.3rem,3.6vw,2.55rem);line-height:1.2;text-wrap:balance;letter-spacing:.005em}
+.hdr .hi{margin:6px 0 0;font-family:var(--f-head);font-weight:700;color:var(--gold);font-size:clamp(1.1rem,3vw,2.05rem);line-height:1.3;text-wrap:balance}
+.hdr .addr{margin:12px auto 0;display:inline-block;color:var(--hdr-sub);font-size:clamp(.82rem,1.7vw,1.05rem);border-top:1px solid rgba(255,255,255,.28);padding-top:10px}
+.hdr .addr span{display:block}
+
+/* menu */
+.nav{background:var(--green-deep);position:sticky;top:0;z-index:20}
+.nav>.wrap>ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap}
+.nav li{position:relative}
+.nav .top{display:block;padding:11px 16px;color:#fff;text-decoration:none;font:inherit;font-weight:600;font-size:.9375rem;border:0;border-right:1px solid rgba(255,255,255,.14);background:transparent;cursor:pointer;white-space:nowrap}
+.nav .top:hover,.nav .top[aria-current="page"],.nav li:focus-within>.top,.nav li.open>.top{background:var(--gold);color:#1f2a30}
+.nav .caret{font-size:.7em;margin-left:4px}
+.nav .login{margin-left:auto}
+.nav .login .top{background:var(--red);border-right:0;color:#fff}
+:root[data-theme="dark"] .nav .login .top{background:#8a1f1f}
+.nav .login .top:hover,.nav .login .top[aria-current="page"]{background:var(--gold);color:#1f2a30}
+.dd{display:none;position:absolute;left:0;top:100%;min-width:250px;background:var(--green-deep);border-top:3px solid var(--gold);box-shadow:0 8px 18px rgba(0,0,0,.28);z-index:30;list-style:none;margin:0;padding:6px 0}
+.nav li:hover>.dd,.nav li:focus-within>.dd,.nav li.open>.dd{display:block}
+.nav.hold .dd{display:none!important}
+.dd a{display:block;padding:9px 18px;color:#fff;text-decoration:none;font-size:.9375rem}
+.dd a:hover,.dd a[aria-current="page"]{background:var(--gold);color:#1f2a30}
+.dd .grp{padding:8px 18px 2px;color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.dd .grp:not(:first-child){margin-top:6px;border-top:1px solid rgba(255,255,255,.18);padding-top:10px}
+
+.page{display:none}
+.page.active{display:block}
+.pagehead{background:var(--tint);border-bottom:1px solid var(--line)}
+.pagehead .wrap{padding-block:16px}
+.crumb{font-size:.8125rem;color:var(--muted);margin:0 0 2px}
+.crumb a{color:var(--muted)}
+h2{font-family:var(--f-head);color:var(--head);margin:0;font-size:1.7rem;line-height:1.25}
+h3{font-family:var(--f-head);margin:0 0 8px;font-size:1.1rem}
+.body{padding-block:28px 44px}
+.body p{max-width:70ch}
+.card{background:var(--surface);border:1px solid var(--line);padding:18px 20px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.back{display:inline-block;margin-top:28px;font-weight:600}
+.sechead{margin:36px 0 14px;padding-top:26px;border-top:1px solid var(--line)}
+
+/* running ticker */
+.ticker{background:var(--tint);border-bottom:1px solid var(--line)}
+.ticker .wrap{display:flex;align-items:stretch;padding-inline:0}
+.ticker .tag{flex:none;background:var(--red);color:#fff;font-weight:700;font-size:.8125rem;letter-spacing:.06em;text-transform:uppercase;padding:10px 14px;display:flex;align-items:center}
+:root[data-theme="dark"] .ticker .tag{color:#1f2a30}
+.ticker .view{flex:1;min-width:0;overflow:hidden;display:flex;align-items:center}
+.ticker .track{display:flex;white-space:nowrap;width:max-content}
+.ticker .track span{padding:10px 34px 10px 0}
+.ticker .track span::before{content:"\25C6";color:var(--gold);margin-right:12px;font-size:.7rem}
+.ticker.run .track{animation:slide 32s linear infinite}
+.ticker.run:hover .track,.ticker.paused .track{animation-play-state:paused}
+.ticker .pp{flex:none;background:transparent;border:0;border-left:1px solid var(--line);color:var(--ink);font:inherit;font-size:.8125rem;padding:0 12px;cursor:pointer}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* home hero: add hero.jpg next to this file for the background picture */
+.hero{background:linear-gradient(100deg,rgba(14,58,86,.90) 0%,rgba(20,76,108,.62) 55%,rgba(20,76,108,.32) 100%),url("hero.jpg") center/cover no-repeat,linear-gradient(135deg,#2a86a8,#124a66);color:#fff}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:32px;align-items:center;min-height:380px;padding-block:36px}
+.motto{min-width:0}
+.motto .en{margin:0;font-family:var(--f-head);font-weight:700;font-size:clamp(1.9rem,5.2vw,3.6rem);line-height:1.12;text-shadow:0 2px 12px rgba(0,0,0,.45);text-wrap:balance}
+.motto .hi{margin:12px 0 0;font-family:var(--f-head);font-weight:700;color:var(--gold);font-size:clamp(1.5rem,4vw,2.7rem);line-height:1.25;text-shadow:0 2px 10px rgba(0,0,0,.45)}
+.motto .bar{width:72px;height:5px;background:var(--gold);margin-top:22px}
+
+.upd{border:2px solid var(--gold);background:var(--surface);color:var(--ink);min-width:0;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+.upd .uh{background:var(--gold);color:#1f2a30;padding:10px 14px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:10px;letter-spacing:.03em}
+.upd .uh button{font:inherit;font-size:.8125rem;background:#1f2a30;color:#fff;border:0;padding:3px 10px;cursor:pointer}
+.upd .scroll{height:260px;overflow-y:auto}
+.upd.run .scroll{overflow:hidden}
+.upd ul{list-style:none;margin:0;padding:0}
+.upd.run .stack{animation:up 22s linear infinite}
+.upd.run:hover .stack,.upd.paused .stack{animation-play-state:paused}
+@keyframes up{to{transform:translateY(-50%)}}
+.upd li{padding:12px 14px;border-bottom:1px dashed var(--line)}
+.upd .d{display:block;font-size:.78rem;color:var(--muted);font-weight:600}
+.upd .new{display:inline-block;background:var(--red);color:#fff;font-size:.65rem;font-weight:700;padding:0 6px;margin-left:6px;vertical-align:1px}
+:root[data-theme="dark"] .upd .new{color:#1f2a30}
+.upd a{font-weight:600}
+
+/* pamphlet slot: add pamphlet.jpg next to this file */
+.pamph{padding-block:36px 52px}
+.pamph h2{margin-bottom:16px}
+.pamph h2::after{content:"";display:block;width:56px;height:4px;background:var(--gold);margin-top:8px}
+.pamph .frame{background:var(--surface);border:1px solid var(--line);padding:12px;display:grid;place-items:center;min-height:240px;min-width:0}
+.broch{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;align-items:start}
+.pamph .frame a{display:block;width:100%}
+.ticker .track a{font-weight:600}
+.pamph img{max-width:100%;height:auto;display:block}
+.slider{display:flex;align-items:center;gap:10px}
+.sl-view{flex:1;min-width:0;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
+.sl-track{display:flex;transition:transform .45s ease}
+.slide{flex:0 0 100%;min-width:0;display:grid;place-items:center;padding:12px;min-height:240px}
+.slide img{display:block;max-width:100%;max-height:680px;width:auto;height:auto;object-fit:contain}
+.sl-btn{flex:none;width:46px;height:46px;border-radius:50%;border:2px solid var(--green);background:var(--surface);color:var(--green);font-size:1.9rem;line-height:1;padding:0 0 4px;cursor:pointer}
+.sl-btn:hover{background:var(--gold);border-color:var(--gold);color:#1f2a30}
+.sl-dots{display:flex;justify-content:center;gap:9px;margin-top:14px}
+.sl-dots button{width:12px;height:12px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
+.sl-dots button[aria-current="true"]{background:var(--green);transform:scale(1.2)}
+@media (max-width:560px){.sl-btn{width:36px;height:36px;font-size:1.5rem}.slider{gap:6px}}
+@media (prefers-reduced-motion:reduce){.sl-track{transition:none}}
+.pamph .empty{width:100%;min-height:216px;border:2px dashed var(--gold);display:grid;place-items:center;text-align:center;color:var(--muted);padding:20px}
+
+.btn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border:2px solid var(--green)}
+.btn:hover{background:var(--gold);border-color:var(--gold);color:#1f2a30}
+tr.tot td{background:var(--tint)}
+.prose p{max-width:78ch;margin:0 0 16px;line-height:1.7}
+.prose h3{font-size:1.3rem;margin:30px 0 8px;color:var(--head)}
+.team{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+.member{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--gold);text-align:center;padding:14px 12px 16px;min-width:0}
+.member .ph{position:relative;width:100%;aspect-ratio:3/4;background:var(--tint);border:1px dashed var(--gold);display:grid;place-items:center;color:var(--muted);font-size:.8rem;overflow:hidden}
+.member .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.member .nm{margin:12px 0 0;font-weight:700;line-height:1.3}
+.member .ds{margin:3px 0 0;color:var(--muted);font-size:.875rem;line-height:1.4}
+@media (max-width:1000px){.team{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){.team{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.team{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0}
+.facts dt{color:var(--notice-red);font-weight:700;font-size:.8125rem;letter-spacing:.08em;text-transform:uppercase;padding-top:3px}
+.facts dd{margin:0;font-weight:600}
+.facts dd small{display:block;font-weight:400;color:var(--muted)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px;background:var(--surface)}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+thead th{background:var(--green);color:#fff;font-weight:600}
+td.num{font-variant-numeric:tabular-nums}
+caption{caption-side:bottom;text-align:left;color:var(--muted);font-size:.85rem;padding-top:8px}
+ol.agenda{margin:0;padding:0;list-style:none;display:grid;gap:8px;counter-reset:a}
+ol.agenda li{counter-increment:a;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+ol.agenda li::before{content:counter(a);width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;display:grid;place-items:center;font-size:.9rem}
+.todo{background:var(--tint);border:1px dashed var(--gold);padding:2px 8px;font-size:.9rem;color:var(--ink)}
+ul.plain{margin:0;padding-left:20px}
+ul.plain li{margin-bottom:4px}
+address{font-style:normal}
+.ln{display:flex;gap:9px;align-items:flex-start;margin:0 0 8px}
+.tl{list-style:none;margin:0;padding:0 0 0 20px;border-left:3px solid var(--gold);display:grid;gap:16px}
+.tl li{position:relative}
+.tl li::before{content:"";position:absolute;left:-29px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--green);border:2px solid var(--bg)}
+.tl b{display:block;color:var(--notice-red)}
+
+footer{background:var(--hdr-bg);color:var(--hdr-sub);border-top:6px solid var(--gold);font-size:.9rem}
+footer .wrap{padding-block:26px;display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:flex-start}
+footer .l{min-width:0;flex:1 1 320px}
+footer .l strong{display:block;color:#fff;font-family:var(--f-head);font-size:1.15rem;line-height:1.35}
+footer .l .hi{display:block;color:var(--gold);font-family:var(--f-head);font-weight:700;margin-top:4px}
+footer .r{min-width:0;flex:0 1 380px;text-align:right}
+footer .r p{margin:0 0 8px;display:flex;gap:9px;justify-content:flex-end;align-items:flex-start}
+footer .r a{color:#fff}
+footer .r .slot{display:inline-block}
+footer .flink{display:inline-block;margin-top:10px;color:var(--gold);font-weight:600}
+.fine{background:#0e3b52;color:#bcd3df;font-size:.78rem;text-align:center;padding:8px 16px}
+
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr);min-height:0}
+  .two{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:700px){
+  .nav .top{padding:10px 12px;font-size:.875rem}
+  .nav li.has-sub.open{flex-basis:100%}
+  .nav li:hover>.dd,.nav li:focus-within>.dd{display:none}
+  .nav li.open>.dd{display:block;position:static;box-shadow:none}
+  .nav .login{margin-left:0}
+  footer .r{text-align:left;flex-basis:100%}
+  footer .r p{justify-content:flex-start}
+}
+@media (max-width:560px){
+  .hdr .wrap{flex-direction:column;gap:14px;padding-block:20px}
+  .logo{width:72px;height:72px}
+  .facts{grid-template-columns:minmax(0,1fr);gap:0}
+  .facts dd{margin-bottom:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  .upd.run .stack{animation:none}
+  .upd.run .scroll{overflow-y:auto}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="util">
+  <div class="wrap">
+    <div class="contact">
+      <a href="mailto:pgsssociety2020@gmail.com"><svg class="ic"><use href="#i-mail"/></svg>pgsssociety2020@gmail.com</a>
+      <span><svg class="ic"><use href="#i-phone"/></svg><a href="tel:+919958782299">9958782299</a></span>
     </div>
-</body>
-</html>
+    <div class="tools" role="group" aria-label="Display settings">
+      <span>Text size</span>
+      <button type="button" id="fs-dec" aria-label="Decrease text size">A-</button>
+      <button type="button" id="fs-reset" aria-label="Normal text size">A</button>
+      <button type="button" id="fs-inc" aria-label="Increase text size">A+</button>
+      <span class="sep">|</span>
+      <button type="button" id="theme" aria-label="Switch between light and dark display">Dark / Light</button>
+    </div>
+  </div>
+</div>
+
+<header class="hdr">
+  <div class="wrap">
+    <!-- LOGO: save your logo as logo.png next to this file. Until then the dashed box shows. -->
+    <div class="logo"><img src="logo.png" alt="Society logo" id="logo-img"></div>
+    <div class="names">
+      <h1>Pauri Garhwal Swayam Sahaytarth (Urban) Thrift and Credit Society Ltd.</h1>
+      <p class="hi" lang="hi">पौड़ी गढ़वाल स्वयं सहायतार्थ (शहरी) थ्रिफ्ट एंड क्रेडिट सोसाइटी लि.</p>
+      <p class="addr"><span>TA 111, Top Floor, Main Okhla Road, Tughlakabad Extension, New Delhi - 110 019</span></p>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="wrap">
+    <ul>
+      <li><a class="top" href="#home" data-page="home">Home</a></li>
+      <li class="has-sub" data-group="about">
+        <button class="top" type="button" aria-haspopup="true" aria-expanded="false">About <span class="caret" aria-hidden="true">&#9660;</span></button>
+        <ul class="dd">
+          <li><a href="#about" data-page="about">About Us</a></li>
+          <li><a href="#management" data-page="management">Managing Committee</a></li>
+          <li><a href="#audit" data-page="audit">Audit</a></li>
+          <li><a href="#agm" data-page="agm">AGM</a></li>
+          <li><a href="#election" data-page="election">Election</a></li>
+        </ul>
+      </li>
+      <li><a class="top" href="#membership" data-page="membership">Membership</a></li>
+      <li class="has-sub" data-group="deposits">
+        <button class="top" type="button" aria-haspopup="true" aria-expanded="false">Deposits <span class="caret" aria-hidden="true">&#9660;</span></button>
+        <ul class="dd">
+          <li><a href="#cd" data-page="cd">Compulsory Deposit</a></li>
+          <li><a href="#fd" data-page="fd">Fixed Deposits</a></li>
+          <li><a href="#rd" data-page="rd">Recurring Deposits</a></li>
+        </ul>
+      </li>
+      <li class="has-sub" data-group="loans">
+        <button class="top" type="button" aria-haspopup="true" aria-expanded="false">Loans <span class="caret" aria-hidden="true">&#9660;</span></button>
+        <ul class="dd">
+          <li><a href="#pl" data-page="pl">Personal Loan</a></li>
+          <li><a href="#el" data-page="el">Emergent Loan</a></li>
+          <li><a href="#fl" data-page="fl">Festival Loan</a></li>
+          <li><a href="#lfd" data-page="lfd">Loan against FD / RD</a></li>
+          <li><a href="#vl" data-page="vl">Vehicle Loan</a></li>
+          <li><a href="#edl" data-page="edl">Education Loan</a></li>
+          <li><a href="#hl" data-page="hl">Home Loan</a></li>
+          <li><a href="#gl" data-page="gl">Gold Loan</a></li>
+        </ul>
+      </li>
+      <li><a class="top" href="#downloads" data-page="downloads">Downloads</a></li>
+      <li class="login"><a class="top" href="#login" data-page="login">Member Login</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+
+<!-- HOME -->
+<div class="page active" id="p-home">
+  <div class="ticker" id="ticker">
+    <div class="wrap">
+      <div class="tag">Latest</div>
+      <div class="view">
+        <div class="track" id="track">
+          <span><a href="https://drive.google.com/file/d/1lxxlsqEiPRPHKbv_OdGfBzIRBCCtgsG_/view?usp=drive_link" target="_blank" rel="noopener">7th Annual General Body Meeting: Sunday, 25 October 2026, 10:00 AM, Shabnam Banquet Hall / Abhishek Residency</a></span>
+          <span><a href="https://drive.google.com/file/d/1_vRvM4XxjQVIEfOmLbjyfpml4dMzsxSB/view?usp=drive_link" target="_blank" rel="noopener">Managing Committee election: 25 October 2026</a></span>
+	<span><a href="https://drive.google.com/file/d/1ULcSQ17YLruiIbhLSTFJwDJu5IRwVaWo/view?usp=drive_link" target="_blank" rel="noopener">Managing Committee election: 25 October 2026 - Change of Venue</a></span>
+          <span><a href="https://drive.google.com/file/d/1hraJ2mAUrfHwKGbRnwFktqt1w5bBr7jg/view?usp=drive_link" target="_blank" rel="noopener">Proposed Bye-Law amendments to be placed before members</a></span>
+          <span>All members are requested to attend</span>
+        </div>
+      </div>
+      <button class="pp" type="button" id="tk-pp" aria-pressed="false">Pause</button>
+    </div>
+  </div>
+  <section class="hero" aria-label="Society motto and updates">
+    <div class="wrap">
+      <div class="motto">
+        <p class="en">Your Prosperity, Our Purpose</p>
+        <p class="hi" lang="hi">आपकी उन्नति, हमारा उद्देश्य</p>
+        <div class="bar"></div>
+      </div>
+      <aside class="upd" id="upd" aria-label="Updates">
+        <div class="uh"><span>Updates</span><button type="button" id="up-pp" aria-pressed="false">Pause</button></div>
+        <div class="scroll" tabindex="0" aria-label="Scrollable list of updates">
+          <div class="stack" id="stack">
+            <ul>
+              <li><span class="d">03.10.2026 <span class="new">NEW</span></span><a href="https://drive.google.com/file/d/1lxxlsqEiPRPHKbv_OdGfBzIRBCCtgsG_/view?usp=drive_link" target="_blank" rel="noopener">7th AGM: Sunday, 25 October 2026, 10:00 AM. Notice and agenda</a></li>
+              <li><span class="d">03.10.2026 <span class="new">NEW</span></span><a href="https://drive.google.com/file/d/1_vRvM4XxjQVIEfOmLbjyfpml4dMzsxSB/view?usp=drive_link" target="_blank" rel="noopener">Managing Committee election</a></li>
+ 		<li><span class="d">03.10.2026 <span class="new">NEW</span></span><a href="https://drive.google.com/file/d/1ULcSQ17YLruiIbhLSTFJwDJu5IRwVaWo/view?usp=drive_link" target="_blank" rel="noopener">Managing Committee election: venue changed to Shabnam Banquet Hall / Abhishek Residency</a></li>
+
+              <li><span class="d">03.10.2026</span><a href="https://drive.google.com/file/d/1hraJ2mAUrfHwKGbRnwFktqt1w5bBr7jg/view?usp=drive_link" target="_blank" rel="noopener">Proposed Bye-Law amendments for approval at the AGM</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="pamph" aria-label="Society brochures">
+    <div class="wrap">
+      <h2>Our Society</h2>
+      <!-- BROCHURES: save pictures as brochure1.jpg, brochure2.jpg, brochure3.jpg, brochure4.jpg next to this file. A missing picture is skipped.
+           For more brochures, copy one whole <div class="slide">...</div> line and change the number (brochure5.jpg and so on). -->
+      <div class="slider" id="slider" role="group" aria-roledescription="carousel" aria-label="Society brochures">
+        <button class="sl-btn" id="sl-prev" type="button" aria-label="Previous brochure">&#8249;</button>
+        <div class="sl-view">
+          <div class="sl-track" id="sl-track">
+            <div class="slide"><img src="brochure1.jpg" alt="Society brochure 1"></div>
+            <div class="slide"><img src="brochure2.jpg" alt="Society brochure 2"></div>
+            <div class="slide"><img src="brochure3.jpg" alt="Society brochure 3"></div>
+            <div class="slide"><img src="brochure4.jpg" alt="Society brochure 4"></div>
+          </div>
+        </div>
+        <button class="sl-btn" id="sl-next" type="button" aria-label="Next brochure">&#8250;</button>
+      </div>
+      <div class="sl-dots" id="sl-dots"></div>
+      <div class="frame blank" id="broch-empty" hidden></div>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT US -->
+<div class="page" id="p-about">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; About &gt; About Us</p><h2>About Us</h2></div></div>
+  <div class="wrap body prose">
+    <p style="margin-top:0">Pauri Garhwal Swayam Sahaytarth Co-operative (U) Thrift &amp; Credit Society Limited (PGSS), is a cooperative society with its operations rooted in Delhi. Our journey commenced on the 20th of March, 2020, owing to the relentless efforts of Sh. Gabar Singh Gusain, our esteemed Chief Promoter, and Sh. Vikas Singh. PGSS is duly registered under the Delhi Cooperative Societies (DCS) Act of 2003, bearing registration number 10681/Sec-06/TC/2020.</p>
+    <p>At PGSS, our core mission is to elevate the social and economic well-being of our esteemed members by cultivating a culture of savings. We extend a diverse range of financial products, meticulously tailored to meet the distinct financial aspirations of our members. Our offerings encompass Daily Deposits, Fixed Deposits, Recurring Deposits, Savings Accounts, and Loans.</p>
+    <p>Nestled in the vibrant landscape of South Delhi, our office serves as the central hub of our operations, guided by the Society's Bye-laws. PGSS ardently adheres to the stringent guidelines of the Delhi State Cooperative Society Act of 2003, conducting business exclusively within our cherished member community. Our financial resources are thoughtfully directed towards member loans and investments, in strict conformity with cooperative society regulations.</p>
+
+    <h3>Vision</h3>
+    <p>Our vision is both straightforward and profound: to continuously serve our members, uphold a leading position, and guarantee the complete satisfaction of our esteemed customers. We maintain vigilant watchfulness over market dynamics, unwavering in our pursuit of self-improvement, and remain steadfast in our commitment to the cherished principles we hold dear.</p>
+
+    <h3>Mission</h3>
+    <p>At PGSS, our mission is to pioneer the cooperative movement, establishing the highest standards of quality and prioritizing a customer-centric approach as our guiding principles. Our dedication revolves around serving the future of India through the delivery of exceptional services. We pledge our commitment to fostering a cooperative ethos that not only enriches the lives of our members but also contributes to the prosperity of our great nation.</p>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+<!-- MANAGING COMMITTEE -->
+<div class="page" id="p-management">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; About &gt; Managing Committee</p><h2>Managing Committee</h2></div></div>
+  <div class="wrap body">
+    <!-- PHOTOS: save as committee1.jpg to committee10.jpg next to this file. Replace "add name" and "add position" for each person. -->
+    <ul class="team" id="team">
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee1.jpg" alt=""></div><p class="nm"><span class="todo">Yashpal Singh Gusain</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee2.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee3.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee4.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee5.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee6.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee7.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee8.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee9.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+      <li class="member"><div class="ph"><span>Photo</span><img src="committee10.jpg" alt=""></div><p class="nm"><span class="todo">add name</span></p><p class="ds"><span class="todo">add position</span></p></li>
+    </ul>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+<!-- AUDIT -->
+<div class="page" id="p-audit">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; About &gt; Audit</p><h2>Audit</h2></div></div>
+  <div class="wrap body">
+    <p style="margin-top:0">Audited accounts of the society.</p>
+    <!-- Each link below says: href="place google link for ...". Replace that text inside the quotes with your Google Drive link. To add a row, copy one whole <tr>...</tr> row. -->
+    <div class="tbl" tabindex="0" role="region" aria-label="Audited accounts">
+      <table>
+        <thead><tr><th scope="col">Financial year</th><th scope="col">Audited accounts</th></tr></thead>
+        <tbody>
+          <tr><td>2025-26</td><td><a href="https://drive.google.com/file/d/1NaB3mOqaPHUOhtNnnHqfjrTfjK8pKZ-c/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>2024-25</td><td><a href="https://drive.google.com/file/d/1_EgicyYBHhFZ0IN1Kti5HJlII-DCbZ3-/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>2023-24</td><td><a href="https://drive.google.com/file/d/1H7zrjqulk7GtvXuX6wDq4qQxThkWtR1D/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>2022-23</td><td><a href="https://drive.google.com/file/d/1g-2BoUoyBMULedw-EOECO9ylb6pPPvww/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>2021-22</td><td><a href="https://drive.google.com/file/d/1syD8SPfKOgBrOYy7RDfw0ycL85w0zsC6/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>2020-21</td><td><a href="https://drive.google.com/file/d/1muimrtQjzYojw-uXvXj1YvyFKk8lJMbh/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+<!-- AGM -->
+<div class="page" id="p-agm">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; About &gt; AGM</p><h2>Annual General Body Meetings</h2></div></div>
+  <div class="wrap body">
+    <!-- Each link below says: href="place google link for ...". Replace that text inside the quotes with your Google Drive link. To add a row, copy one whole <tr>...</tr> row. -->
+    <div class="tbl" tabindex="0" role="region" aria-label="Minutes of annual general meetings">
+      <table>
+        <thead><tr><th scope="col">Meeting</th><th scope="col">Date</th><th scope="col">Minutes</th></tr></thead>
+        <tbody>
+          <tr><td>1st AGM</td><td>20 September 2020</span></td><td><a href="https://drive.google.com/file/d/1UrrbYFTT3i6ekK_gtALHEyC_8hmZbRot/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>2nd AGM</td><td>27 February 2022</span></td><td><a href="https://drive.google.com/file/d/1OQRbsT-CeWtcwVZWwq0QusxnUcyaQj7e/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>3rd AGM</td><td>25 September 2022	</span></td><td><a href="https://drive.google.com/file/d/1IiiCiphrLSIlj1xMSCY9Oci84_aOFjoa/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>4th AGM</td><td>22 October 2023</span></td><td><a href="https://drive.google.com/file/d/1Ht0kmDGNF1GDGtOLNTR4WKe0cpv5iv9i/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>5th AGM</td><td>29 September 2024</span></td><td><a href="https://drive.google.com/file/d/1KbAzajy2eo73mbbPCzTfKGHXjnQdReUL/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>6th AGM</td><td>28 September 2025</td><td><a href="https://drive.google.com/file/d/1F5tQ7Bg1lwYQsUEv6juf9TiwubZuBWi8/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>7th AGM</td><td>25 October 2026</td><td>Minutes after the meeting</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+		
+<!-- ELECTION -->
+<div class="page" id="p-election">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; About &gt; Election</p><h2>Managing Committee Elections</h2></div></div>
+  <div class="wrap body">
+    <!-- Each link below says: href="place google link for ...". Replace that text inside the quotes with your Google Drive link. To add a row, copy one whole <tr>...</tr> row. -->
+    <div class="tbl" tabindex="0" role="region" aria-label="Election results">
+      <table>
+        <thead><tr><th scope="col">Election</th><th scope="col">Date</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+         <tr><td>1st Election</span></td><td>29 October 2023</span></td><td><a href="https://drive.google.com/file/d/1B7nI0nul1SW-tl7loumppVB1vv3Yu3Lo/view?usp=drive_link" target="_blank" rel="noopener">View</a></td></tr>
+          <tr><td>Managing Committee Election 2026</td><td>25 October 2026</td><td>Result after the election</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+
+<!-- MEMBERSHIP -->
+<div class="page" id="p-membership">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Membership</p><h2>Membership</h2></div></div>
+  <div class="wrap body prose">
+    <h3 style="margin-top:0">Who can be a member of the society?</h3>
+    <p>Any person who is 18 years of age or older, possesses the legal capacity to enter into a valid contract, and is a resident of the National Capital Territory (NCT) of Delhi is eligible to become a member of the Society.</p>
+
+    <h3>How to become a member of the society?</h3>
+    <p>The application for membership of the society shall be submitted by the applicant at the office of the society, in the prescribed form and KYC documents such as:</p>
+    <ul class="plain">
+      <li>Id Proof (any one like Voter Id card, Aadhar Card, Pan Card, Driving License etc.)</li>
+      <li>Address Proof (Voter ID card, Electricity/Water Bill, Compulsory)</li>
+      <li>Rent Agreement (In case of tenant. Electricity/Water bill of Landlord compulsory)</li>
+      <li>Latest passport size Photos (2)</li>
+      <li>One Introducer (who is member of society and not a defaulter)</li>
+    </ul>
+
+    <p style="margin-top:22px">
+      <a class="btn" href="place google link for membership form" target="_blank" rel="noopener">Download Membership Form</a>
+    </p>
+
+    <h3>Benefits of joining PGSS?</h3>
+    <ul class="plain">
+      <li>Offers higher Interest rates on deposits</li>
+      <li>No TDS is deducted on the Interest earned on the deposits</li>
+      <li>Hassle Free Loan Products</li>
+      <li>Loan at simple interest rates</li>
+      <li>Easy EMIs (Choose EMI amount as per your repaying capacity)</li>
+      <li>No hidden charges</li>
+      <li>Full transparency</li>
+    </ul>
+
+    <h3>Enrollment Fees</h3>
+    <div class="tbl" tabindex="0" role="region" aria-label="Enrollment fees" style="max-width:560px">
+      <table style="min-width:340px">
+        <thead><tr><th scope="col">Item</th><th scope="col" style="text-align:right">Amount</th></tr></thead>
+        <tbody>
+          <tr><td>Share Money (Minimum)</td><td class="num" style="text-align:right">Rs. 500</td></tr>
+          <tr><td>Compulsory Deposit (C.D.)</td><td class="num" style="text-align:right">Rs. 200</td></tr>
+          <tr><td>Admission Fee</td><td class="num" style="text-align:right">Rs. 200</td></tr>
+          <tr><td>Building Fund</td><td class="num" style="text-align:right">Rs. 50</td></tr>
+          <tr><td>Form Fees</td><td class="num" style="text-align:right">Rs. 50</td></tr>
+          <tr class="tot"><td><strong>Total (Minimum)</strong></td><td class="num" style="text-align:right"><strong>Rs. 1,000</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="plain" style="margin-top:16px">
+      <li>Share money can be subscribed for a minimum of &#8377;500 up to a maximum of &#8377;20,000. Later, share money can also be increased to maximum limit of &#8377;20,000.</li>
+      <li>After taking membership, Compulsory Deposit (CD) of Rs. 200 is payable every month. This can be paid in advance for entire year, half year and quarter.</li>
+      <li>The right to accept/reject Membership application/s are reserved with the Management of the society.</li>
+    </ul>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+<!-- DEPOSITS -->
+<div class="page" id="p-cd">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Deposits &gt; Compulsory Deposit</p><h2>Compulsory Deposit (CD)</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-fd">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Deposits &gt; Fixed Deposits</p><h2>Fixed Deposits</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-rd">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Deposits &gt; Recurring Deposits</p><h2>Recurring Deposits</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+<!-- LOANS -->
+<div class="page" id="p-pl">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Loans &gt; Personal Loan</p><h2>Personal Loan</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-el">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Loans &gt; Emergent Loan</p><h2>Emergent Loan</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-fl">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Loans &gt; Festival Loan</p><h2>Festival Loan</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-lfd">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Loans &gt; Loan against FD / RD</p><h2>Loan against FD / RD</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-vl">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Loans &gt; Vehicle Loan</p><h2>Vehicle Loan</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-edl">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Loans &gt; Education Loan</p><h2>Education Loan</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-hl">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Loans &gt; Home Loan</p><h2>Home Loan</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+<div class="page" id="p-gl">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Loans &gt; Gold Loan</p><h2>Gold Loan</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:560px"><p style="margin:0;font-size:1.15rem;font-weight:600">Page under development</p></div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+<!-- DOWNLOADS -->
+<div class="page" id="p-downloads">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Downloads</p><h2>Downloads</h2></div></div>
+  <div class="wrap body">
+    <p style="margin-top:0">Forms and documents of the society.</p>
+    <!-- Each link below says: href="place google link for ...". Replace that text inside the quotes with your Google Drive link. To add a row, copy one whole <tr>...</tr> row. -->
+    <div class="tbl" tabindex="0" role="region" aria-label="Downloads">
+      <table>
+        <thead><tr><th scope="col">Document</th><th scope="col">Download</th></tr></thead>
+        <tbody>
+          <tr><td>Membership Form</td><td><a href="https://drive.google.com/file/d/1LNraD_hlspVf8jjMNi7h7qbD66yUNsJG/view?usp=drive_link" target="_blank" rel="noopener">Download</a></td></tr>
+          <tr><td>Regular Loan Application Form</td><td><a href="https://drive.google.com/file/d/1o-GL0LdUKLb5Aou59zrzeE-EV-WF_4wo/view?usp=drive_link" target="_blank" rel="noopener">Download</a></td></tr>
+	<tr><td>Emergent Loan Application Form</td><td><a href="https://drive.google.com/file/d/1-lcvPDshbBXboaw5xxicvNpgDDeAaqip/view?usp=drive_link" target="_blank" rel="noopener">Download</a></td></tr>
+	<tr><td>Festival Loan Application Form</td><td><a href="https://drive.google.com/file/d/1b0lBt-ZCOV0SpbMndnqQ-RkfTZUHYAjO/view?usp=drive_link" target="_blank" rel="noopener">Download</a></td></tr>
+          <tr><td>FD / RD Application Form</td><td><a href="https://drive.google.com/file/d/1yw3pCH1f8qIyMFpGl22G7cdKRl-TcveO/view?usp=drive_link" target="_blank" rel="noopener">Download</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="p-contact">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Contact Us</p><h2>Contact Us</h2></div></div>
+  <div class="wrap body">
+    <div class="two">
+      <address>
+        <strong>Pauri Garhwal Swayam Sahaytarth (Urban) Thrift and Credit Society Ltd.</strong><br>
+        TA 111, Top Floor, Main Okhla Road,<br>
+        Tughlakabad Extension, New Delhi - 110 019<br>
+        Regd. No. 10681/Sec-06/T-C/2020<br><br>
+        Website: www.pgsssociety.in
+      </address>
+      <div class="card">
+        <h3>Office</h3>
+        <p class="ln"><svg class="ic"><use href="#i-mail"/></svg><a href="mailto:pgsssociety2020@gmail.com">pgsssociety2020@gmail.com</a></p>
+        <p class="ln"><svg class="ic"><use href="#i-phone"/></svg><a href="tel:+919958782299">9958782299</a></p>
+        <p class="ln" style="margin:0">Office hours: <span class="todo">add days and timings</span></p>
+      </div>
+    </div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+<!-- MEMBER LOGIN -->
+<div class="page" id="p-login">
+  <div class="pagehead"><div class="wrap"><p class="crumb"><a href="#home">Home</a> &gt; Member Login</p><h2>Member Login</h2></div></div>
+  <div class="wrap body">
+    <div class="card" style="max-width:640px">
+      <h3>Member area</h3>
+      <p style="margin-top:0">Online login for members is not available yet. Members can contact the office for account statements and loan details.</p>
+      <p style="margin-bottom:0">Under Development</span></p>
+    </div>
+    <a class="back" href="#home">&larr; Back to Home</a>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="l">
+      <strong>Pauri Garhwal Swayam Sahaytarth (Urban) Thrift and Credit Society Ltd.</strong>
+      <span class="hi" lang="hi">पौड़ी गढ़वाल स्वयं सहायतार्थ (शहरी) थ्रिफ्ट एंड क्रेडिट सोसाइटी लि.</span>
+      <a class="flink" href="#contact">Contact Us</a>
+    </div>
+    <div class="r">
+      <p><a href="mailto:pgsssociety2020@gmail.com">pgsssociety2020@gmail.com</a><svg class="ic"><use href="#i-mail"/></svg></p>
+      <p><a href="tel:+919958782299">9958782299</a><svg class="ic"><use href="#i-phone"/></svg></p>
+      <p><span>TA 111, Top Floor, Main Okhla Road,<br>Tughlakabad Extension, New Delhi - 110 019</span><svg class="ic"><use href="#i-pin"/></svg></p>
+    </div>
+  </div>
+</footer>
+<div class="fine">This is the society's own website. It is not an official Government of India website.</div>
+
+<script>
+(function(){
+  var root=document.documentElement,key='pgsss-prefs';
+  function load(){try{return JSON.parse(localStorage.getItem(key))||{}}catch(e){return {}}}
+  function save(p){try{localStorage.setItem(key,JSON.stringify(p))}catch(e){}}
+  var prefs=load(),size=prefs.size||16;
+  function applySize(){root.style.setProperty('--fs',size+'px')}
+  applySize();
+  if(prefs.theme){root.setAttribute('data-theme',prefs.theme)}
+  document.getElementById('fs-inc').onclick=function(){size=Math.min(22,size+1);applySize();prefs.size=size;save(prefs)};
+  document.getElementById('fs-dec').onclick=function(){size=Math.max(13,size-1);applySize();prefs.size=size;save(prefs)};
+  document.getElementById('fs-reset').onclick=function(){size=16;applySize();prefs.size=16;save(prefs)};
+  document.getElementById('theme').onclick=function(){
+    var cur=root.getAttribute('data-theme');
+    if(!cur){cur=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);prefs.theme=next;save(prefs);
+  };
+
+  /* logo and pamphlet: show a placeholder if the picture file is missing */
+  function guard(id,phId){
+    var img=document.getElementById(id),ph=document.getElementById(phId);
+    function miss(){img.hidden=true;ph.hidden=false}
+    img.addEventListener('error',miss);
+    if(img.complete&&img.naturalWidth===0)miss();
+  }
+  /* logo and pamphlet: if the picture file is not there yet, hide the logo spot and keep the empty pamphlet area */
+  (function(){
+    var li=document.getElementById('logo-img'),lw=li.parentNode;
+    function noLogo(){lw.hidden=true}
+    li.addEventListener('error',noLogo);
+    if(li.complete&&li.naturalWidth===0)noLogo();
+    var track=document.getElementById('sl-track'),sl=document.getElementById('slider'),dots=document.getElementById('sl-dots'),blank=document.getElementById('broch-empty'),prev=document.getElementById('sl-prev'),next=document.getElementById('sl-next'),idx=0;
+    function render(){
+      var n=track.children.length;
+      sl.hidden=n===0;blank.hidden=n>0;
+      prev.hidden=next.hidden=dots.hidden=n<2;
+      if(idx>=n)idx=0;
+      track.style.transform='translateX(-'+(idx*100)+'%)';
+      dots.innerHTML='';
+      for(var i=0;i<n&&n>1;i++){(function(k){
+        var d=document.createElement('button');d.type='button';d.setAttribute('aria-label','Show brochure '+(k+1));
+        d.setAttribute('aria-current',k===idx?'true':'false');
+        d.onclick=function(){idx=k;render()};dots.appendChild(d);
+      })(i)}
+    }
+    function go(step){var n=track.children.length;if(n<2)return;idx=(idx+step+n)%n;render()}
+    prev.onclick=function(){go(-1)};
+    next.onclick=function(){go(1)};
+    sl.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')go(-1);if(e.key==='ArrowRight')go(1)});
+    var sx=null;
+    track.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+    track.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>40)go(dx<0?1:-1)});
+    Array.prototype.slice.call(track.querySelectorAll('img')).forEach(function(im){
+      function gone(){var sd=im.closest('.slide');if(sd&&sd.parentNode){sd.remove();render()}}
+      im.addEventListener('error',gone);
+      if(im.complete&&im.naturalWidth===0)gone();
+    });
+    render();
+  })();
+  document.querySelectorAll('.member img').forEach(function(im){
+    function gone(){im.remove()}
+    im.addEventListener('error',gone);
+    if(im.complete&&im.naturalWidth===0)gone();
+  });
+
+  /* pages */
+  var ids=['home','about','management','audit','agm','election','membership','cd','fd','rd','pl','el','fl','lfd','vl','edl','hl','gl','downloads','contact','login'];
+  var nav=document.getElementById('nav'),pageLinks=nav.querySelectorAll('a[data-page]'),groups=nav.querySelectorAll('li.has-sub');
+  function route(){
+    var h=(location.hash||'').replace('#','');
+    if(ids.indexOf(h)<0){ if(h==='main'||h===''){h=document.querySelector('.page.active').id.slice(2)} else {h='home'} }
+    ids.forEach(function(i){document.getElementById('p-'+i).classList.toggle('active',i===h)});
+    pageLinks.forEach(function(a){if(a.getAttribute('data-page')===h)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+    groups.forEach(function(g){
+      var on=g.querySelector('a[aria-current="page"]');
+      var b=g.querySelector('button.top');
+      if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
+      g.classList.remove('open');b.setAttribute('aria-expanded','false');
+    });
+    nav.classList.add('hold');
+    window.scrollTo(0,0);
+  }
+  nav.addEventListener('mouseleave',function(){nav.classList.remove('hold')});
+  nav.addEventListener('mousemove',function(e){if(!e.target.closest('.dd'))nav.classList.remove('hold')});
+  window.addEventListener('hashchange',route);
+  route();
+
+  /* drop-downs: tap or Enter to open */
+  function closeAll(){groups.forEach(function(o){o.classList.remove('open');o.querySelector('button.top').setAttribute('aria-expanded','false')})}
+  groups.forEach(function(g){
+    var b=g.querySelector('button.top');
+    b.addEventListener('click',function(e){
+      e.stopPropagation();
+      var open=!g.classList.contains('open');
+      closeAll();nav.classList.remove('hold');
+      if(open){g.classList.add('open');b.setAttribute('aria-expanded','true')}
+    });
+  });
+  document.addEventListener('click',closeAll);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+
+  /* updates panel: scrolls upward, pauses on hover or button */
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var up=document.getElementById('upd'),stack=document.getElementById('stack'),upBtn=document.getElementById('up-pp');
+  if(!reduce){
+    var dup=stack.querySelector('ul').cloneNode(true);dup.setAttribute('aria-hidden','true');
+    dup.querySelectorAll('a').forEach(function(a){a.tabIndex=-1});
+    stack.appendChild(dup);up.classList.add('run');
+  } else {upBtn.hidden=true}
+  upBtn.onclick=function(){var p=up.classList.toggle('paused');upBtn.textContent=p?'Play':'Pause';upBtn.setAttribute('aria-pressed',p)};
+
+  /* running ticker: duplicate items for a seamless loop */
+  var tk=document.getElementById('ticker'),track=document.getElementById('track'),tkBtn=document.getElementById('tk-pp');
+  if(!reduce){
+    Array.prototype.slice.call(track.children).forEach(function(c){var n=c.cloneNode(true);n.setAttribute('aria-hidden','true');track.appendChild(n)});
+    tk.classList.add('run');
+  } else {tkBtn.hidden=true;tk.querySelector('.view').style.overflowX='auto'}
+  tkBtn.onclick=function(){var p=tk.classList.toggle('paused');tkBtn.textContent=p?'Play':'Pause';tkBtn.setAttribute('aria-pressed',p)};
+})();
+</script>
